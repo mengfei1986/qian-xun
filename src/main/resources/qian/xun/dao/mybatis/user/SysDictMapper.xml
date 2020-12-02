@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="qian.xun.facade.dao.SysDictDao">
+    <resultMap id="SysDictResultMap" type="qian.xun.facade.po.SysDict">
+        <id property="id" column="id" javaType="int" jdbcType="INTEGER"/>
+        <result property="dictName" column="dict_name" javaType="String" jdbcType="VARCHAR"/>
+        <result property="dictCode" column="dict_code" javaType="String" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" javaType="String" jdbcType="VARCHAR"/>
+        <result property="status" column="status" javaType="Integer" jdbcType="INTEGER"/>
+        <result property="createBy" column="create_by" javaType="String" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" javaType="String" jdbcType="VARCHAR"/>
+        <result property="updateBy" column="update_by" javaType="String" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" javaType="String" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="queryList" parameterType="qian.xun.facade.query.SysDictQuery"  resultMap="SysDictResultMap">
+        select * from sys_dict where 1 = 1
+        <if test="dictCodes != null">
+            and dict_code in
+            <foreach collection="dictCodes" item="dictCode" index="index"
+                     open="(" close=")" separator=",">
+                #{dictCode}
+            </foreach>
+        </if>
+    </select>
+    <insert id="insert" parameterType="qian.xun.facade.po.SysDict"  useGeneratedKeys="true" keyProperty="id">
+        insert into sys_dict (
+<!--                                        id-->
+                                        remark
+                                        ,status
+                                        ,dict_name
+                                        ,dict_code
+                                        ,create_by
+                                        ,create_time
+                                        ,update_by
+                                        ,update_time
+        )
+        values(
+<!--                                        #{id}-->
+                                        #{remark}
+                                        ,#{status}
+                                        ,#{dictName}
+                                        ,#{dictCode}
+                                        ,#{createBy}
+                                        ,#{createTime}
+                                        ,#{updateBy}
+                                        ,#{updateTime}
+        )
+    </insert>
+    <delete id="delete" parameterType="Integer">
+        delete from sys_dict where id=#{id}
+    </delete>
+
+    <update id="update" parameterType="qian.xun.facade.po.SysDict">
+        update sys_dict set
+        <if test="remark != null and remark != ''">
+            remark=#{remark} ,
+        </if>
+        <if test="status != null and status != '' and status != 0 ">
+            status=#{status} ,
+        </if>
+        <if test="dictName != null and dictName != ''">
+            dict_name=#{dictName} ,
+        </if>
+        <if test="dictCode != null and dictCode != ''">
+            dict_code=#{dictCode} ,
+        </if>
+        update_by=#{updateBy} ,
+        update_time=#{updateTime}
+        where id=#{id}
+    </update>
+
+</mapper>

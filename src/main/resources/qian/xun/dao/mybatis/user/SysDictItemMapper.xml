@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="qian.xun.facade.dao.SysDictItemDao">
+    <resultMap id="SysDictItemResultMap" type="qian.xun.facade.po.SysDictItem">
+        <id property="id" column="id" javaType="int" jdbcType="INTEGER"/>
+        <id property="dictCode" column="dict_code" javaType="String" jdbcType="VARCHAR"/>
+        <result property="itemKey" column="item_key" javaType="String" jdbcType="VARCHAR"/>
+        <result property="itemVal" column="item_val" javaType="String" jdbcType="VARCHAR"/>
+        <result property="status" column="status" javaType="Integer" jdbcType="INTEGER"/>
+        <result property="createBy" column="create_by" javaType="String" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" javaType="String" jdbcType="VARCHAR"/>
+        <result property="updateBy" column="update_by" javaType="String" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" javaType="String" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="pageList" resultMap="SysDictItemResultMap"   parameterType="qian.xun.facade.query.SysDictItemQuery" >
+        select * from sys_dict_item
+        <include refid="pageWhere"></include>
+        ORDER BY #{order}
+        LIMIT #{offset},#{limit}
+    </select>
+    <select id="count" resultType="Integer"   parameterType="qian.xun.facade.query.SysDictItemQuery" >
+        select count(1) from sys_dict_item
+        <include refid="pageWhere"></include>
+    </select>
+    <sql id="pageWhere">
+        where 1 = 1
+        <if test="dictCode != null and dictCode != ''">
+            and dict_code=#{dictCode}
+        </if>
+    </sql>
+    <insert id="insert" parameterType="qian.xun.facade.po.SysDictItem"  useGeneratedKeys="true" keyProperty="id">
+        insert into sys_dict_item (
+
+                                         dict_code
+                                        ,item_key
+                                        ,item_val
+                                        ,status
+                                        ,create_by
+                                        ,create_time
+                                        ,update_by
+                                        ,update_time
+        )
+        values(
+
+                                        #{dictCode}
+                                        ,#{itemKey}
+                                        ,#{itemVal}
+                                        ,#{status}
+                                        ,#{createBy}
+                                        ,#{createTime}
+                                        ,#{updateBy}
+                                        ,#{updateTime}
+        )
+    </insert>
+    <delete id="delete" parameterType="Integer">
+        delete from sys_dict_item where id=#{id}
+    </delete>
+
+    <update id="update" parameterType="qian.xun.facade.po.SysDictItem">
+        update sys_dict_item set
+        <if test="dictCode != null and dictCode != ''">
+            dict_code=#{dictCode} ,
+        </if>
+        <if test="status != null and status != '' and status != 0 ">
+            status=#{status} ,
+        </if>
+        <if test="itemKey != null and itemKey != ''">
+            item_key=#{itemKey} ,
+        </if>
+        <if test="itemVal != null and itemVal != ''">
+            item_val=#{itemVal} ,
+        </if>
+        update_by=#{updateBy} ,
+        update_time=#{updateTime}
+        where id=#{id}
+    </update>
+
+</mapper>

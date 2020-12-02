@@ -1,0 +1,30 @@
+#LOGGING
+logging:
+    config: classpath:logback.xml
+server:
+    port: 8082
+    compression:
+        enabled: true
+        mime-types: application/json,application/xml,text/html,text/xml,text/plain
+multipart:
+    enabled: true
+    maxFileSize: 80Mb
+    maxRequestSize: 100Mb
+    location: ./upload
+#spring config
+spring:
+    aop:
+        auto: true
+    datasource:
+        username: mxuser
+        password: mxuser123456
+        url: jdbc:mysql://192.168.52.121:3306/test-wong?serverTimezone=UTC&&characterEncoding=UTF-8
+#        driver-class-name: com.mysql.jdbc.Driver
+        driver-class-name: com.mysql.cj.jdbc.Driver
+    mvc:
+        favicon:
+            enabled: false
+# MyBatis
+mybatis:
+    mapper-locations: classpath*:qian/xun/dao/mybatis/user/*.xml
+#    config: classpath:mybatis-config.xml
