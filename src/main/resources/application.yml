@@ -15,16 +15,24 @@ multipart:
 spring:
     aop:
         auto: true
+#    datasource:
+#        username: mxuser
+#        password: mxuser123456
+#        url: jdbc:mysql://192.168.52.121:3306/test-wong?serverTimezone=UTC&&characterEncoding=UTF-8
+##        driver-class-name: com.mysql.jdbc.Driver
+#        driver-class-name: com.mysql.cj.jdbc.Driver
+    h2:
+        console:
+            path: /h2-console #进入h2 web操作界面的路径
+            enabled: true #开启h2 web界面
     datasource:
-        username: mxuser
-        password: mxuser123456
-        url: jdbc:mysql://192.168.52.121:3306/test-wong?serverTimezone=UTC&&characterEncoding=UTF-8
-#        driver-class-name: com.mysql.jdbc.Driver
-        driver-class-name: com.mysql.cj.jdbc.Driver
-    mvc:
-        favicon:
-            enabled: false
+        driver-class-name: org.h2.Driver
+        schema: classpath:db/schema-h2.sql
+        url: jdbc:h2:file:d:/home/spring-boot-h2-db
+        username: root
+        password: test
 # MyBatis
 mybatis:
     mapper-locations: classpath*:qian/xun/dao/mybatis/user/*.xml
-#    config: classpath:mybatis-config.xml
+    configuration:
+        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 在console打印sql语句

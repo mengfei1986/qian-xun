@@ -15,7 +15,7 @@ public class SysDictTest extends AbstractTest {
     @Test
     public void queryList(){
         SysDictRequest.QueryList req = new SysDictRequest.QueryList();
-        req.setDictCodes(Arrays.asList("1233","123"));
+//        req.setDictCodes(Arrays.asList("1233","123"));
         printlnJson(service.queryList(req));
     }
 
