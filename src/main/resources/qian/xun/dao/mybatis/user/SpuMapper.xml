@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="qian.xun.facade.dao.SpuDao">
+    <resultMap id="SpuResultMap" type="qian.xun.facade.po.Spu">
+        <id property="id" column="id" javaType="int" jdbcType="INTEGER"/>
+        <result property="name" column="name" javaType="String" jdbcType="VARCHAR"/>
+        <result property="modelNo" column="model_no" javaType="Integer" jdbcType="INTEGER"/>
+        <result property="specs" column="specs" javaType="String" jdbcType="VARCHAR"/>
+        <result property="headUrl" column="head_url" javaType="String" jdbcType="VARCHAR"/>
+        <result property="seller" column="seller" javaType="String" jdbcType="VARCHAR"/>
+        <result property="dataSource" column="data_source" javaType="String" jdbcType="VARCHAR"/>
+        <result property="basePrice" column="base_price" javaType="Integer" jdbcType="INTEGER"/>
+        <result property="status" column="status" javaType="Integer" jdbcType="INTEGER"/>
+        <result property="createBy" column="create_by" javaType="String" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" javaType="String" jdbcType="VARCHAR"/>
+        <result property="updateBy" column="update_by" javaType="String" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" javaType="String" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="get" parameterType="qian.xun.facade.query.SpuQuery" resultMap="SpuResultMap">
+        select * from spu where 1=1
+        <if test="modelNo != null and modelNo != ''">
+            model_no=#{modelNo}
+        </if>
+    </select>
+    <select id="pageList" resultMap="SpuResultMap"   parameterType="qian.xun.facade.query.SpuQuery" >
+        select * from spu
+        <include refid="pageWhere"></include>
+        ORDER BY #{order}
+        LIMIT #{offset},#{limit}
+    </select>
+    <select id="count" resultType="Integer"   parameterType="qian.xun.facade.query.SpuQuery" >
+        select count(1) from spu
+        <include refid="pageWhere"></include>
+    </select>
+    <sql id="pageWhere">
+        where 1 = 1
+        <if test="name != null and name != ''">
+            and name=#{name}
+        </if>
+        <if test="modelNo != null and modelNo != ''">
+            and model_no=#{modelNo}
+        </if>
+        <if test="specs != null and specs != ''">
+            and specs=#{specs}
+        </if>
+        <if test="minPrice != null and minPrice != ''">
+            and basicPrice >= #{minPrice}
+        </if>
+        <if test="maxPrice != null and maxPrice != ''">
+            and #{maxPrice} >= basicPrice
+        </if>
+        <if test="status != null and status != '' and status!=0">
+            and status=#{status}
+        </if>
+    </sql>
+
+    <insert id="insert" parameterType="qian.xun.facade.po.Spu"  useGeneratedKeys="true" keyProperty="id">
+        insert into spu (
+
+        name
+        ,spu_id
+        ,model_no
+        ,specs
+        ,head_url
+        ,seller
+        ,data_source
+        ,base_price
+        ,status
+        ,create_by
+        ,create_time
+        ,update_by
+        ,update_time
+        )
+        values(
+
+        #{name}
+        ,#{spuId}
+        ,#{modelNo}
+        ,#{specs}
+        ,#{headUrl}
+        ,#{seller}
+        ,#{dataSource}
+        ,#{basePrice}
+        ,#{status}
+        ,#{createBy}
+        ,#{createTime}
+        ,#{updateBy}
+        ,#{updateTime}
+        )
+
+    </insert>
+    <delete id="delete" parameterType="Integer">
+        update spu set status = 2 where id=#{id}
+    </delete>
+
+    <update id="update" parameterType="qian.xun.facade.po.Spu">
+        update spu set
+        <if test="name != null and name != ''">
+            name=#{name} ,
+        </if>
+        <if test="modelNo != null and modelNo != ''">
+            model_no=#{modelNo} ,
+        </if>
+        <if test="specs != null and specs != ''">
+            specs=#{specs} ,
+        </if>
+        <if test="headUrl != null and headUrl != ''">
+            head_url=#{headUrl} ,
+        </if>
+        <if test="seller != null and seller != ''">
+            seller=#{seller} ,
+        </if>
+        <if test="dataSource != null and dataSource != ''">
+            data_source=#{dataSource} ,
+        </if>
+        <if test="basePrice != null and basePrice != '' and basePrice != 0 ">
+            base_price=#{basePrice} ,
+        </if>
+
+        <if test="status != null and status != '' and status != 0 ">
+            status=#{status} ,
+        </if>
+        update_by=#{updateBy} ,
+        update_time=#{updateTime}
+        where id=#{id}
+    </update>
+
+
+
+
+
+</mapper>

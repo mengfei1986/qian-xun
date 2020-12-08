@@ -25,6 +25,8 @@ import java.util.Objects;
 public class SysDictItemServiceImpl implements SysDictItemService {
     @Resource
     private SysDictItemDao sysDictItemDao;
+
+
     @Override
     public PageResult<SysDictItem> pageList(SysDictItemRequest.PageList req) {
         if(Objects.isNull(req.getLimit()) || req.getLimit()<=0){
@@ -35,21 +37,11 @@ public class SysDictItemServiceImpl implements SysDictItemService {
         }
         SysDictItemQuery query = SysDictItemQuery.builder()
                                             .dictCode(req.getDictCode())
+                                            .status(req.getStatus())
                                             .itemKey(req.getItemKey())
                                             .limit(req.getLimit())
                                             .offset((req.getPage()-1)*req.getLimit())
                                             .build();
-        if(!StringUtils.isEmpty(req.getSort())){
-            String prefix = req.getSort().substring(0,1);
-            String postfix = req.getSort().substring(1);
-            if("+".equalsIgnoreCase(prefix)){
-                query.setOrder(postfix.toUpperCase() +" DESC");
-            }else{
-                query.setOrder(postfix.toUpperCase()+" ASC");
-            }
-        }else{
-            query.setOrder("ID ASC");
-        }
         PageResult<SysDictItem> result = new PageResult<>();
         int count = sysDictItemDao.count(query);
         if(count>0){
@@ -70,7 +62,6 @@ public class SysDictItemServiceImpl implements SysDictItemService {
 
     @Override
     public boolean update(SysDictItem sysDict) {
-        sysDict.setUpdateTime(TimeUtil.localDateTImeToString(null));
         return sysDictItemDao.update(sysDict);
     }
 

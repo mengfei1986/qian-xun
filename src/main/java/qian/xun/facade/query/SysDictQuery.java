@@ -9,4 +9,9 @@ import java.util.List;
 @Builder
 public class SysDictQuery {
     private List<String> dictCodes;
+    private int offset;
+    private int limit;
+    private String dictCode;
+    private String dictName;
+    private int status;
 }

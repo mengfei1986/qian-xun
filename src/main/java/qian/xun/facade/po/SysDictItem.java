@@ -8,6 +8,7 @@ public class SysDictItem    implements Serializable {
 
   private Integer id;
   private String dictCode;
+  private String dictName;
   private String itemKey;
   private String itemVal;
   private Integer status;

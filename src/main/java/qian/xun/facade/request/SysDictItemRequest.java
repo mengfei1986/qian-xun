@@ -8,8 +8,8 @@ public class SysDictItemRequest {
     public static class PageList{
         private Integer page;
         private Integer limit;
-        private String sort;
         private String dictCode;
         private String itemKey;
+        private int status;
     }
 }

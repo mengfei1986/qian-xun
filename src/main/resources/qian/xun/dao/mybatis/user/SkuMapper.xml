@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="qian.xun.facade.dao.SkuDao">
+    <resultMap id="SkuResultMap" type="qian.xun.facade.po.Sku">
+        <id property="id" column="id" javaType="int" jdbcType="INTEGER"/>
+        <result property="headUrl" column="head_url" javaType="String" jdbcType="VARCHAR"/>
+        <result property="colorNo" column="color_no" javaType="String" jdbcType="VARCHAR"/>
+        <result property="colorDesc" column="color_desc" javaType="String" jdbcType="VARCHAR"/>
+        <result property="price" column="price" javaType="Integer" jdbcType="INTEGER"/>
+        <result property="status" column="status" javaType="Integer" jdbcType="INTEGER"/>
+        <result property="createBy" column="create_by" javaType="String" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" javaType="String" jdbcType="VARCHAR"/>
+        <result property="updateBy" column="update_by" javaType="String" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" javaType="String" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="get" parameterType="qian.xun.facade.query.SkuQuery" resultMap="SkuResultMap">
+        select * from sku where 1=1
+        <if test="modelNo != null and modelNo != ''">
+            model_no=#{modelNo}
+        </if>
+    </select>
+    <select id="findList" resultMap="SkuResultMap"   parameterType="qian.xun.facade.query.SkuQuery" >
+        select * from sku
+        <include refid="pageWhere"></include>
+        ORDER BY #{order}
+        LIMIT #{offset},#{limit}
+    </select>
+<!--    <select id="count" resultType="Integer"   parameterType="qian.xun.facade.query.SpuQuery" >-->
+<!--        select count(1) from spu-->
+<!--        <include refid="pageWhere"></include>-->
+<!--    </select>-->
+    <sql id="pageWhere">
+        where 1 = 1
+        <if test="spuId != null and spuId != ''">
+            and spu_id=#{spuId}
+        </if>
+        <if test="colorNo != null and colorNo != ''">
+            and color_no=#{colorNo}
+        </if>
+        <if test="colorDesc != null and colorDesc != ''">
+            and color_desc=#{colorDesc}
+        </if>
+        <if test="status != null and status != '' and status!=0">
+            and status=#{status}
+        </if>
+    </sql>
+
+    <insert id="insert" parameterType="qian.xun.facade.po.Sku"  useGeneratedKeys="true" keyProperty="id">
+        insert into spu (
+
+        spu_id
+        ,head_url
+        ,color_no
+        ,color_desc
+        ,price
+        ,status
+        ,create_by
+        ,create_time
+        ,update_by
+        ,update_time
+        )
+        values(
+
+        #{spuId}
+        ,#{headUrl}
+        ,#{colorNo}
+        ,#{colorDesc}
+        ,#{price}
+        ,#{status}
+        ,#{createBy}
+        ,#{createTime}
+        ,#{updateBy}
+        ,#{updateTime}
+        )
+    </insert>
+    <delete id="delete" parameterType="Integer">
+        update sku set status = 2 where id=#{id}
+    </delete>
+
+    <update id="update" parameterType="qian.xun.facade.po.Sku">
+        update spu set
+        <if test="headUrl != null and headUrl != ''">
+            head_url=#{headUrl} ,
+        </if>
+        <if test="colorNo != null and colorNo != ''">
+            color_no=#{colorNo} ,
+        </if>
+        <if test="colorDesc != null and colorDesc != ''">
+            color_desc=#{colorDesc} ,
+        </if>
+        <if test="price != null and price != '' and price != 0 ">
+            price=#{price} ,
+        </if>
+        <if test="status != null and status != '' and status != 0 ">
+            status=#{status} ,
+        </if>
+        update_by=#{updateBy} ,
+        update_time=#{updateTime}
+        where id=#{id}
+    </update>
+
+
+
+
+
+</mapper>

@@ -16,7 +16,6 @@ public class SysDictItemTest extends AbstractTest {
         SysDictItemRequest.PageList query = new SysDictItemRequest.PageList();
         query.setPage(2);
         query.setLimit(2);
-        query.setSort("-id");
         printlnJson(service.pageList(query));
     }
 

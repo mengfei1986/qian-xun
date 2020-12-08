@@ -14,8 +14,24 @@
         <result property="updateBy" column="update_by" javaType="String" jdbcType="VARCHAR"/>
         <result property="updateTime" column="update_time" javaType="String" jdbcType="VARCHAR"/>
     </resultMap>
-    <select id="queryList" parameterType="qian.xun.facade.query.SysDictQuery"  resultMap="SysDictResultMap">
-        select * from sys_dict where 1 = 1
+    <select id="queryList" resultMap="SysDictResultMap"   parameterType="qian.xun.facade.query.SysDictQuery" >
+        select * from sys_dict
+        <include refid="pageWhere"></include>
+    </select>
+    <select id="pageList" resultMap="SysDictResultMap"   parameterType="qian.xun.facade.query.SysDictQuery" >
+        select * from sys_dict
+        <include refid="pageWhere"></include>
+<!--        <if test="order != null and order !=''">-->
+<!--            ORDER BY #{order}-->
+<!--        </if>-->
+        LIMIT #{offset},#{limit}
+    </select>
+    <select id="count" resultType="Integer"   parameterType="qian.xun.facade.query.SysDictQuery" >
+        select count(1) from sys_dict
+        <include refid="pageWhere"></include>
+    </select>
+    <sql id="pageWhere">
+        where 1 = 1
         <if test="dictCodes != null">
             and dict_code in
             <foreach collection="dictCodes" item="dictCode" index="index"
@@ -23,7 +39,18 @@
                 #{dictCode}
             </foreach>
         </if>
-    </select>
+        <if test="status != null and status != '' and status != 0 ">
+            and status=#{status}
+        </if>
+        <if test="dictName != null and dictName != ''">
+            and dict_name=#{dictName}
+        </if>
+        <if test="dictCode != null and dictCode != ''">
+            and dict_code=#{dictCode}
+        </if>
+    </sql>
+
+
     <insert id="insert" parameterType="qian.xun.facade.po.SysDict"  useGeneratedKeys="true" keyProperty="id">
         insert into sys_dict (
 <!--                                        id-->

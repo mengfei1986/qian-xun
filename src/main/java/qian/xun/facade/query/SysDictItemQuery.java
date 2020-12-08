@@ -11,4 +11,5 @@ public class SysDictItemQuery {
     private int offset;
     private int limit;
     private String order;
+    private int status;
 }
